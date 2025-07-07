@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixvia Logo Export</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            margin: 20px 0;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            background: white;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo-icon {
+            position: relative;
+            margin-right: 12px;
+        }
+        .main-circle {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .inner-dot {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+        }
+        .accent-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            background: #60A5FA;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #111827;
+            letter-spacing: -0.025em;
+        }
+        .download-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #2563EB;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            transition: background-color 0.2s;
+        }
+        .download-btn:hover {
+            background: #1D4ED8;
+        }
+        .instructions {
+            background: #EFF6FF;
+            border: 1px solid #DBEAFE;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .canvas-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fixvia Logotyp Export</h1>
+        <p>Här är din logotyp exakt som den visas på hemsidan, redo för export.</p>
+        
+        <div class="logo-preview">
+            <div class="logo" id="logoPreview">
+                <div class="logo-icon">
+                    <div class="main-circle">
+                        <div class="inner-dot"></div>
+                    </div>
+                    <div class="accent-dot"></div>
+                </div>
+                <span class="logo-text">Fixvia</span>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Instruktioner:</h3>
+            <ul>
+                <li><strong>SVG-version:</strong> Perfekt för webbanvändning och skalbar utan kvalitetsförlust</li>
+                <li><strong>PNG-version:</strong> Transparent bakgrund, perfekt för annonser och tryck</li>
+                <li><strong>Färger:</strong> Exakt samma som på hemsidan (#3B82F6 till #1D4ED8 gradient)</li>
+                <li><strong>Storlek:</strong> Optimerad för olika användningsområden</li>
+            </ul>
+        </div>
+        
+        <div class="download-section">
+            <a href="/fixvia-logo.svg" download="fixvia-logo.svg" class="download-btn">
+                📥 Ladda ner SVG
+            </a>
+            <button onclick="downloadPNG()" class="download-btn">
+                📥 Ladda ner PNG
+            </button>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="logoCanvas" width="400" height="120"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function downloadPNG() {
+            const canvas = document.getElementById('logoCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas with transparent background
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Create gradient for main circle
+            const gradient = ctx.createLinearGradient(0, 0, 64, 64);
+            gradient.addColorStop(0, '#3B82F6');
+            gradient.addColorStop(1, '#1D4ED8');
+            
+            // Draw main circle with shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+            ctx.shadowBlur = 6;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 4;
+            
+            ctx.beginPath();
+            ctx.arc(40, 60, 32, 0, 2 * Math.PI);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Reset shadow for other elements
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            
+            // Draw inner white dot
+            ctx.beginPath();
+            ctx.arc(40, 60, 12, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            
+            // Draw accent dot
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.arc(56, 44, 12, 0, 2 * Math.PI);
+            ctx.fillStyle = '#60A5FA';
+            ctx.fill();
+            ctx.globalAlpha = 1;
+            
+            // Draw text
+            ctx.font = 'bold 48px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = '#111827';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Fixvia', 100, 60);
+            
+            // Download the PNG
+            const link = document.createElement('a');
+            link.download = 'fixvia-logo.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
